@@ -1,6 +1,6 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const debug = require("debug");
+const debug = require("debug")("medications:database");
 const chalk = require("chalk");
 
 const connectDB = (connectionString) =>
