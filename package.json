@@ -23,5 +23,15 @@
   "dependencies": {
     "dotenv": "^16.0.1",
     "jest": "^28.1.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/index.js",
+      "!src/server/initializeServer.js",
+      "!src/server/index.js",
+      "!src/database/index.js",
+      "!.eslintrc.js"
+    ]
   }
 }
