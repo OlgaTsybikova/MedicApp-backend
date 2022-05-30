@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "start": "node src",
+    "start-dev": "nodemon src -q",
+    "prepare": "husky install",
+    "test": "jest --passWithNoTests",
+    "test-coverage": "jest --coverage --watchAll=false"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +19,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "husky": "^7.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "jest": "^28.1.0"
   }
 }
