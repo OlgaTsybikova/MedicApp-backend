@@ -28,7 +28,11 @@ afterAll(async () => {
 describe("Given a POST/user/register/ endpoint", () => {
   describe("When it receives a request with a new user", () => {
     test("Then it should respond with the status code 201 and the registered user", async () => {
-      const newUser = { username: "luisito", password: "luisito" };
+      const newUser = {
+        name: "luis",
+        username: "luisito",
+        password: "luisito",
+      };
       await request(app).post("/user/register").send(newUser).expect(201);
     });
   });
