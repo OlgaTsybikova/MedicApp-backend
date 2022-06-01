@@ -45,11 +45,10 @@ const userLogin = async (req, res, next) => {
       password: user.password,
       id: user.id,
     };
-
     if (!matchingPassword) {
       const error = new Error("Password is wrong...Please, try again...");
       error.code = 403;
-      error.customError = "Oops, can't let you in with theis info...";
+      error.customError = "Oops, can't let you in with this info...";
       next(error);
     } else {
       const token = jwt.sign(userData, process.env.JWT_SECRET);
