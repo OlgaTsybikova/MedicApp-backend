@@ -89,7 +89,7 @@ describe("Given a userLogin function", () => {
       await userLogin(req, res);
       const expectedStatus = 200;
       expect(res.status).toHaveBeenCalledWith(expectedStatus);
-      expect(res.json).toHaveBeenCalledWith(expectedToken);
+      expect(res.json).toHaveBeenCalledWith({ token: expectedToken });
     });
     describe("When invoked with a req object with an incorrect urername", () => {
       test("Then it should call the next function", async () => {
