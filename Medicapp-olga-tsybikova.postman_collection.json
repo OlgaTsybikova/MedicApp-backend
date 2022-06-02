@@ -1,44 +1,36 @@
 {
-	"info": {
-		"_postman_id": "dddbc021-2cf2-40e7-8c49-711d31a85b05",
-		"name": "Medicapp-olga-tsybikova",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "20627112"
-	},
-	"item": [
-		{
-			"name": "/user/request",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{origin}}user/register",
-					"host": [
-						"{{origin}}user"
-					],
-					"path": [
-						"register"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "user/login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{origin}}user/login",
-					"host": [
-						"{{origin}}user"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "dddbc021-2cf2-40e7-8c49-711d31a85b05",
+    "name": "Medicapp-olga-tsybikova",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20627112"
+  },
+  "item": [
+    {
+      "name": "/user/request",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}user/register",
+          "host": ["{{origin}}user"],
+          "path": ["register"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "user/login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{origin}}user/login",
+          "host": ["{{origin}}user"],
+          "path": ["login"]
+        }
+      },
+      "response": []
+    }
+  ]
 }
