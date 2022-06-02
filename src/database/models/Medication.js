@@ -12,4 +12,4 @@ const medicationSchema = new Schema({
 });
 const Medication = model("Medication", medicationSchema, "medications");
 
-export default Medication;
+module.exports = Medication;
