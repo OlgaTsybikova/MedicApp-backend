@@ -9,7 +9,7 @@ describe("Given an auth function", () => {
       const next = jest.fn();
 
       const req = {
-        headers: { Authorization: "Bearer " },
+        headers: { authorization: "Bearer " },
       };
 
       auth(req, null, next);
@@ -24,7 +24,7 @@ describe("Given an auth function", () => {
         headers: { Authorization: "InvalidToken" },
       };
       const next = jest.fn();
-      const customError = new Error("invalid token");
+      const customError = new Error("Invalid token");
       customError.statusCode = 401;
 
       auth(req, null, next);

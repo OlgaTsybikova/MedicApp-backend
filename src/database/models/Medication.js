@@ -1,15 +1,16 @@
-const { Schema, default: mongoose, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 
 const medicationSchema = new Schema({
-  title: String,
+  title: { type: String, required: true },
   image: String,
-  category: [{ id: { type: mongoose.Schema.Types.ObjectId } }],
+  category: [],
   prospect: String,
-  description: String,
-  uses: String,
+  description: { type: [String] },
+  uses: { type: [String] },
   dosis: String,
-  treatment: String,
+  owner: { type: SchemaTypes.ObjectId, ref: "users" },
 });
+
 const Medication = model("Medication", medicationSchema, "medications");
 
 module.exports = Medication;
