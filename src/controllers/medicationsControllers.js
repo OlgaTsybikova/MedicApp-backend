@@ -6,7 +6,7 @@ const Medication = require("../database/models/Medication");
 
 const getMedications = async (req, res, next) => {
   try {
-    const medications = await Medication.find({});
+    const medications = await Medication.find();
     res.status(200).json(medications);
     debug("Medications collection request received");
   } catch (error) {
