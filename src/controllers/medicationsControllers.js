@@ -16,12 +16,12 @@ const getMedications = async (req, res, next) => {
   }
 };
 const deleteMedications = async (req, res, next) => {
-  const { id } = req.params();
+  const { id } = req.params;
 
   try {
     const deleteMedication = await Medication.findByIdAndDelete(id);
     if (deleteMedication) {
-      res.status(200).json();
+      res.status(200).json({ message: "Medication deleted correctly!" });
     }
     debug("Received a request to delete a Medication");
   } catch (error) {

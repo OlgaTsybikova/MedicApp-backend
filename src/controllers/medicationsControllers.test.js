@@ -1,5 +1,8 @@
 const Medication = require("../database/models/Medication");
-const { getMedications } = require("./medicationsControllers");
+const {
+  getMedications,
+  deleteMedications,
+} = require("./medicationsControllers");
 
 describe("Given a getkindsList function", () => {
   describe("When it receives a request", () => {
@@ -23,6 +26,30 @@ describe("Given a getkindsList function", () => {
 
       expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
       expect(res.json).toHaveBeenCalledWith(medicationsMock);
+    });
+  });
+});
+
+describe("Given a deleteMedication controller", () => {
+  describe("When it receives a request", () => {
+    test("Then it should respond with a method status and a confirmation of deletion 'Medication deleted correctly!'", async () => {
+      const expectedJsonMessage = {
+        message: "Medication deleted correctly!",
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis(expectedJsonMessage),
+      };
+      const req = { params: { id: "629a0d040a3e1e0a9b455361" } };
+      Medication.findByIdAndDelete = jest
+        .fn()
+        .mockResolvedValue(expectedJsonMessage);
+      await deleteMedications(req, res);
+
+      const expectedStatus = 200;
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedJsonMessage);
     });
   });
 });
