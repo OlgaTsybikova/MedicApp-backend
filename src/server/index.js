@@ -16,7 +16,6 @@ app.use(helmet());
 app.use(express.json());
 
 app.use("/user", userRouter);
-
 app.use("/medications", auth, medicationsRouter);
 
 app.use(notFoundError);

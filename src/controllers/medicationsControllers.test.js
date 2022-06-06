@@ -1,5 +1,5 @@
 const Medication = require("../database/models/Medication");
-const getMedications = require("./medicationsControllers");
+const { getMedications } = require("./medicationsControllers");
 
 describe("Given a getkindsList function", () => {
   describe("When it receives a request", () => {
