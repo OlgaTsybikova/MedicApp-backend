@@ -12,6 +12,7 @@ const mockmeds = [
     uses: ["Active Ingredient: Ibuprofen 200 mg", "For ages 12 years or over"],
     dosis: "1 pill every 8 hours up to 7 days",
     owner: "6294fb700a3e1e0a9b455331",
+    treatment: "1",
   },
   {
     _id: "629a0d040a3e1e0a9b455361",
@@ -26,6 +27,7 @@ const mockmeds = [
     uses: ["Active Ingredient:Hydrotalcite", "For ages 12 years or over"],
     dosis: "1 pill every 8 hours up to 7 days",
     owner: "6294fb700a3e1e0a9b455331",
+    treatment: "1",
   },
 ];
 module.exports = mockmeds;

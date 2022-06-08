@@ -9,6 +9,7 @@ const medicationSchema = new Schema({
   uses: { type: [String] },
   dosis: String,
   owner: { type: SchemaTypes.ObjectId, ref: "users" },
+  treatment: { type: String },
 });
 
 const Medication = model("Medication", medicationSchema, "medications");
