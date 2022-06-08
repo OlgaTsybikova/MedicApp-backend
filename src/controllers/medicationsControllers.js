@@ -2,7 +2,11 @@ require("dotenv").config();
 const debug = require("debug")(
   "medications:controllers:medicationsControllers"
 );
+const chalk = require("chalk");
+const fs = require("fs");
+const path = require("path");
 const Medication = require("../database/models/Medication");
+const User = require("../database/models/User");
 
 const getMedications = async (req, res, next) => {
   try {
@@ -30,4 +34,42 @@ const deleteMedications = async (req, res, next) => {
   }
 };
 
-module.exports = { getMedications, deleteMedications };
+const createMedication = async (req, res, next) => {
+  try {
+    const { title, image, uses, dosis, treatment } = req.body;
+    const { userId } = req;
+    const newMedication = { title, image, uses, dosis, treatment };
+
+    const { file } = req;
+    if (file) {
+      const newFileTitle = `${Date.now()}-${file.originalname}`;
+      fs.rename(
+        path.join("uploads", "images", file.filename),
+        path.join("uploads", "images", newFileTitle),
+        (error) => {
+          if (error) {
+            debug(chalk.red("Error trying to rename image of project"));
+            next(error);
+          }
+        }
+      );
+      newMedication.image = newFileTitle;
+    }
+
+    const createdMedication = await Medication.create(newMedication);
+    await User.findOneAndUpdate(
+      { _id: userId },
+      { $push: { createdmedications: createMedication.id } }
+    );
+    res.status(201).json({ medication: createdMedication });
+    debug(chalk.green("Medication has been created correctly"));
+  } catch (error) {
+    error.customMessage = "Could not create the medication";
+    error.statusCode = 400;
+    debug(chalk.red("Error creating medication"));
+
+    next(error);
+  }
+};
+
+module.exports = { getMedications, deleteMedications, createMedication };
