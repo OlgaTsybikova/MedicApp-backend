@@ -12,8 +12,9 @@ const app = express();
 
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
-app.use(helmet());
+app.use("/images", express.static("images"));
 app.use(express.json());
+app.use(helmet({ crossOriginResourcePolicy: false }));
 
 app.use("/user", userRouter);
 app.use("/medications", auth, medicationsRouter);

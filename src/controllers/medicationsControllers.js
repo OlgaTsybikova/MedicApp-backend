@@ -36,16 +36,16 @@ const deleteMedications = async (req, res, next) => {
 
 const createMedication = async (req, res, next) => {
   try {
-    const { title, image, uses, dosis, treatment } = req.body;
+    const newMedication = req.body;
     const { userId } = req;
-    const newMedication = { title, image, uses, dosis, treatment };
-
     const { file } = req;
+
     if (file) {
       const newFileTitle = `${Date.now()}-${file.originalname}`;
+
       fs.rename(
-        path.join("uploads", "images", file.filename),
-        path.join("uploads", "images", newFileTitle),
+        path.join("images", file.filename),
+        path.join("images", newFileTitle),
         (error) => {
           if (error) {
             debug(chalk.red("Error trying to rename image of project"));
