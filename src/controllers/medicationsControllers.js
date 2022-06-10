@@ -73,8 +73,8 @@ const createMedication = async (req, res, next) => {
 };
 
 const updateMedication = async (req, res, next) => {
+  const { id } = req.params;
   const medication = {
-    _id: req.params.id,
     title: req.body.title,
     category: req.body.category,
     image: req.body.image,
@@ -99,7 +99,7 @@ const updateMedication = async (req, res, next) => {
     );
     medication.image = newFileTitle;
   }
-  await Medication.updateOne({ _id: req.params.id }, medication)
+  await Medication.updateOne({ id }, medication)
     .then(() => {
       res.status(200).json({
         message: "Medication updated successfully!",
