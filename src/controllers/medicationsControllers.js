@@ -72,4 +72,50 @@ const createMedication = async (req, res, next) => {
   }
 };
 
-module.exports = { getMedications, deleteMedications, createMedication };
+const updateMedication = async (req, res, next) => {
+  const { id } = req.params;
+  const medication = {
+    title: req.body.title,
+    category: req.body.category,
+    image: req.body.image,
+    uses: req.body.uses,
+    owner: req.body.userId,
+    treatment: req.body.treatment,
+  };
+  const { file } = req;
+
+  if (file) {
+    const newFileTitle = `${Date.now()}-${file.originalname}`;
+
+    fs.rename(
+      path.join("images", file.filename),
+      path.join("images", newFileTitle),
+      (error) => {
+        if (error) {
+          debug(chalk.red("Error trying to rename image of project"));
+          next(error);
+        }
+      }
+    );
+    medication.image = newFileTitle;
+  }
+  await Medication.updateOne({ id }, medication)
+    .then(() => {
+      res.status(200).json({
+        message: "Medication updated successfully!",
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        error,
+      });
+      next(error);
+    });
+};
+
+module.exports = {
+  getMedications,
+  deleteMedications,
+  createMedication,
+  updateMedication,
+};

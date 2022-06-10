@@ -1,3 +1,6 @@
+const { MongoMemoryServer } = require("mongodb-memory-server");
+const { default: mongoose } = require("mongoose");
+const connectDB = require("../database");
 const Medication = require("../database/models/Medication");
 const User = require("../database/models/User");
 const mockmeds = require("../mocks/mockmeds");
@@ -5,9 +8,29 @@ const {
   getMedications,
   deleteMedications,
   createMedication,
+  updateMedication,
 } = require("./medicationsControllers");
 
-describe("Given a getkindsList function", () => {
+let mongoServer;
+
+beforeAll(async () => {
+  mongoServer = await MongoMemoryServer.create();
+  await connectDB(mongoServer.getUri());
+});
+beforeEach(async () => {
+  await Medication.create(mockmeds[0]);
+});
+
+afterEach(async () => {
+  await Medication.deleteMany({});
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+  await mongoServer.stop();
+});
+
+describe("Given a getMedicationsList function", () => {
   describe("When it receives a request", () => {
     test("Then it should response with a method status 200 and a mockMedications", async () => {
       const res = {
@@ -107,6 +130,35 @@ describe("Given createMedication function", () => {
       await createMedication(req, res, next);
 
       expect(next).toHaveBeenCalled();
+    });
+  });
+});
+describe("Given updateMedication function", () => {
+  describe("When it is invoked with a request to update an existing medication", () => {
+    test("Then it should the responses method with status 200", async () => {
+      const next = jest.fn();
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+
+      const req = {
+        body: { updateMedication: mockmeds[0] },
+        file: {
+          filename: "mockimagename",
+          originalname: "mockimage.jpg",
+        },
+        userId: "mockid",
+        params: { id: "299c35a0a3e1e0a9b455358" },
+      };
+      await updateMedication(req, res, next);
+      Medication.updateOne = jest
+        .fn()
+        .mockResolvedValueOnce({ id: "299c35a0a3e1e0a9b455358" }, mockmeds);
+      const expectedResponseMessage = {
+        message: "Medication updated successfully!",
+      };
+      expect(res.json).toHaveBeenCalledWith(expectedResponseMessage);
     });
   });
 });
