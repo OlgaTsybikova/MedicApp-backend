@@ -74,7 +74,7 @@ const createMedication = async (req, res, next) => {
 
 const updateMedication = async (req, res, next) => {
   const { id } = req.params;
-  const medication = {
+  const newMedication = {
     title: req.body.title,
     category: req.body.category,
     image: req.body.image,
@@ -97,9 +97,9 @@ const updateMedication = async (req, res, next) => {
         }
       }
     );
-    medication.image = newFileTitle;
+    newMedication.image = newFileTitle;
   }
-  await Medication.updateOne({ id }, medication)
+  await Medication.updateOne({ id }, newMedication)
     .then(() => {
       res.status(200).json({
         message: "Medication updated successfully!",
@@ -113,9 +113,27 @@ const updateMedication = async (req, res, next) => {
     });
 };
 
+const getMedicationById = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const medicationDetails = await Medication.findById(id).populate(
+      "owner",
+      "username",
+      User
+    );
+    res.status(200).json({ medicationDetails });
+  } catch (error) {
+    res.status(400).json({
+      error,
+    });
+    next(error);
+  }
+};
+
 module.exports = {
   getMedications,
   deleteMedications,
   createMedication,
   updateMedication,
+  getMedicationById,
 };
