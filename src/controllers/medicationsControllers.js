@@ -3,8 +3,6 @@ const debug = require("debug")(
   "medications:controllers:medicationsControllers"
 );
 const chalk = require("chalk");
-const fs = require("fs");
-const path = require("path");
 const Medication = require("../database/models/Medication");
 const User = require("../database/models/User");
 
@@ -38,23 +36,6 @@ const createMedication = async (req, res, next) => {
   try {
     const newMedication = req.body;
     const { userId } = req;
-    const { file } = req;
-
-    if (file) {
-      const newFileTitle = `${Date.now()}-${file.originalname}`;
-
-      fs.rename(
-        path.join("images", file.filename),
-        path.join("images", newFileTitle),
-        (error) => {
-          if (error) {
-            debug(chalk.red("Error trying to rename image of project"));
-            next(error);
-          }
-        }
-      );
-      newMedication.image = newFileTitle;
-    }
 
     const createdMedication = await Medication.create(newMedication);
     await User.findOneAndUpdate(
@@ -82,23 +63,7 @@ const updateMedication = async (req, res, next) => {
     owner: req.body.userId,
     treatment: req.body.treatment,
   };
-  const { file } = req;
 
-  if (file) {
-    const newFileTitle = `${Date.now()}-${file.originalname}`;
-
-    fs.rename(
-      path.join("images", file.filename),
-      path.join("images", newFileTitle),
-      (error) => {
-        if (error) {
-          debug(chalk.red("Error trying to rename image of project"));
-          next(error);
-        }
-      }
-    );
-    newMedication.image = newFileTitle;
-  }
   await Medication.updateOne({ id }, newMedication)
     .then(() => {
       res.status(200).json({
