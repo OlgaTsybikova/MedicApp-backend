@@ -1,5 +1,5 @@
 const { MongoMemoryServer } = require("mongodb-memory-server");
-const { default: mongoose } = require("mongoose");
+const { mongoose } = require("mongoose");
 const connectDB = require("../database");
 const Medication = require("../database/models/Medication");
 const User = require("../database/models/User");
@@ -32,39 +32,17 @@ afterAll(async () => {
 });
 
 describe("Given a getMedicationsList function", () => {
-  describe("When it receives a request", () => {
-    test("Then it should response with a method status 200 and a mockMedications", async () => {
-      const medicationsMock = [
-        {
-          id: 22,
-          title: "Ibuprofen",
-        },
-      ];
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      };
-      Medication.find = jest.fn().mockResolvedValue(medicationsMock);
+  describe("When it receives a request with not correct data", () => {
+    test("then it should throw an error with code 404 and message 'Not found'", async () => {
+      const next = jest.fn();
 
-      const expectedStatusCode = 200;
+      Medication.find = jest.fn().mockResolvedValue(false);
+      await getMedications(null, null, next);
 
-      await getMedications(null, res);
+      const expectedErrorMessage = "Not found";
+      const expectedError = new Error(expectedErrorMessage);
 
-      expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
-      expect(res.json).toHaveBeenCalledWith(medicationsMock);
-    });
-    describe("When it receives a request with not correct data", () => {
-      test("then it should throw an error with code 404 and message 'Not found'", async () => {
-        const next = jest.fn();
-
-        Medication.find = jest.fn().mockResolvedValue(false);
-        await getMedications(null, null, next);
-
-        const expectedErrorMessage = "Not found";
-        const expectedError = new Error(expectedErrorMessage);
-
-        expect(next).not.toHaveBeenCalledWith(expectedError);
-      });
+      expect(next).not.toHaveBeenCalledWith(expectedError);
     });
   });
 });

@@ -6,12 +6,12 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   medicationsFavoritos: [
     {
-      id: { type: mongoose.Schema.Types.ObjectId, ref: "medications" },
+      id: { type: mongoose.Schema.Types.ObjectId, ref: "Medication" },
       treatment: { type: Boolean, default: [] },
     },
   ],
   ownMedications: [
-    { type: SchemaTypes.ObjectId, ref: "medications", default: [] },
+    { type: SchemaTypes.ObjectId, ref: "Medication", default: [] },
   ],
 });
 

@@ -9,7 +9,7 @@ const medicationSchema = new Schema({
   description: String,
   uses: String,
   dosis: String,
-  owner: { type: SchemaTypes.ObjectId, ref: "users" },
+  owner: { type: SchemaTypes.ObjectId, ref: "User" },
   treatment: { type: String },
 });
 
