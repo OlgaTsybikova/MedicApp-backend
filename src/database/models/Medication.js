@@ -11,6 +11,7 @@ const medicationSchema = new Schema({
   dosis: String,
   owner: { type: SchemaTypes.ObjectId, ref: "User" },
   treatment: { type: String },
+  date: Date,
 });
 
 const Medication = model("Medication", medicationSchema, "medications");
