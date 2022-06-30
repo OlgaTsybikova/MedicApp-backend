@@ -19,27 +19,25 @@ const getMedications = async (req, res, next) => {
 
     if (req.query?.category) {
       debug(
-        chalk.pink(
+        chalk(
           `Get medications by Category: ${req.query?.category} request received`
         )
       );
 
       filter.categories = req.query.category;
-      queryNextPrev += `genre=${req.query.category}`;
+      queryNextPrev += `category=${req.query.category}`;
     }
     if (req.query?.title) {
       debug(
-        chalk.pink(
-          `Get medications by Title: ${req.query?.title} request received`
-        )
+        chalk(`Get medications by Title: ${req.query?.title} request received`)
       );
 
       filter.titles = req.query.title;
-      queryNextPrev += `genre=${req.query.title}`;
+      queryNextPrev += `title=${req.query.title}`;
     }
 
     if (req.query?.user) {
-      debug(chalk.pink(`Get medications by user request received`));
+      debug(chalk(`Get medications by user request received`));
       filter.owner = req.userId;
       queryNextPrev += `user=${req.query.user}`;
     }
@@ -141,6 +139,7 @@ const createMedication = async (req, res, next) => {
       uses: req.body.uses,
       treatment: req.body.treatment,
       defaultImage: file ? defaultImage : "",
+      date: new Date(),
     };
 
     const createdMedication = await Medication.create(newMedication);
